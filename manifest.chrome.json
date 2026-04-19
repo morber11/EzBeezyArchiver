@@ -1,21 +1,21 @@
 {
-  "manifest_version": 3,
-  "name": "Easy Archive.is Archiver",
-  "version": "1.0",
-  "description": "Archives the current page using Archive.is",
-  "icons": {
-    "48": "media/icon.png"
-  },
-  "background": {
-    "service_worker": "index.js"
-  },
-  "action": {
-    "default_icon": "media/icon.png",
-    "default_title": "Archive this page"
-  },
-  "permissions": [
-    "activeTab",
-    "contextMenus",
-    "action"
-  ]
+    "manifest_version": 3,
+    "name": "Easy Archive.is Archiver",
+    "version": "1.0",
+    "description": "Archives the current page using Archive.is",
+    "icons": {
+        "48": "media/icon.png"
+    },
+    "background": {
+        "service_worker": "index.js"
+    },
+    "action": {
+        "default_icon": "media/icon.png",
+        "default_title": "Archive this page"
+    },
+    "permissions": [
+        "activeTab",
+        "contextMenus",
+        "action"
+    ]
 }
