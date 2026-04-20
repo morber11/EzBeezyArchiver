@@ -1,11 +1,11 @@
 {
-  "name": "easyarchiver",
-  "version": "1.0.0",
-  "description": "Easy archiver for Firefox. Archives pages using archive.is",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "morber11",
-  "license": "ISC"
+    "name": "easyarchiver",
+    "version": "1.0.0",
+    "description": "Easy archiver for Firefox. Archives pages using archive.is",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "morber11",
+    "license": "ISC"
 }

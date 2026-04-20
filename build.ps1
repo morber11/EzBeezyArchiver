@@ -1,17 +1,10 @@
-function Check-Parameter($param) {
-    if ($param -eq $null) {
-        Write-Host "No parameter provided."
-        exit 1
-    }
-}
-
 function Get-SourceFiles($param) {
-    $param = $param.ToLower() 
-    if ($param -eq "f" -or $param -eq "firefox") { 
-        return "manifest.firefox.json", "index.firefox.js"
+    $param = $param.ToLower()
+    if ($param -eq "f" -or $param -eq "firefox") {
+        return "manifest.firefox.json", "index.js"
     }
-    if ($param -eq "g" -or $param -eq "c" -or $param -eq "chrome") { 
-        return "manifest.chrome.json", "index.chrome.js"
+    if ($param -eq "g" -or $param -eq "c" -or $param -eq "chrome") {
+        return "manifest.chrome.json", "index.js"
     }
     Write-Host "Invalid parameter."
     exit 1
@@ -24,30 +17,27 @@ function Check-FileExists($file) {
     }
 }
 
-function Create-OutputDirectory() {
-    if (!(Test-Path "out")) { 
-        New-Item -ItemType Directory -Force -Path "out" 
-    } 
+function Create-OutputDirectory($path) {
+    if (!(Test-Path $path)) {
+        New-Item -ItemType Directory -Force -Path $path | Out-Null
+    }
 }
 
-function Copy-Files($files, $param, $indexFile) {
+function Copy-Files($files, $param, $outputPath) {
     foreach ($file in $files) {
         $item = Get-Item $file
         switch (Test-Path $file) {
             $true {
                 if ($item.PSIsContainer) {
                     if ($file -eq "media" -and ($param -eq "f" -or $param -eq "firefox")) {
-                        Copy-Item -Path "$file\*" -Destination "out\" -Recurse -Force
+                        Copy-Item -Path "$file\*" -Destination "$outputPath\" -Recurse -Force
                     }
                     else {
-                        Copy-Item -Path $file -Destination "out\" -Recurse -Force
+                        Copy-Item -Path $file -Destination "$outputPath\" -Recurse -Force
                     }
                 }
                 else {
-                    Copy-Item -Path $file -Destination "out\$file" -Force
-                    if ($file -eq $indexFile) {
-                        Rename-Item -Path "out\$file" -NewName "index.js" -Force
-                    }
+                    Copy-Item -Path $file -Destination "$outputPath\$file" -Force
                 }
             }
             $false {
@@ -58,26 +48,64 @@ function Copy-Files($files, $param, $indexFile) {
     }
 }
 
-function Compress-Output() {
-    Compress-Archive -Path .\out\* -DestinationPath .\out\EasyArchiver.zip -Update
+function Compress-Output($outputPath) {
+    Compress-Archive -Path "$outputPath\*" -DestinationPath "$outputPath\EasyArchiver.zip" -Update
 }
 
-$param = $args[0]
+function Clean-OutputDirectory() {
+    if (Test-Path "out") {
+        Remove-Item -Recurse -Force "out"
+    }
+}
 
-Check-Parameter $param
+function Update-ManifestName($manifestPath) {
+    $json = Get-Content $manifestPath -Raw
+    if ($json -notmatch '"name"\s*:\s*"\[DEV\]') {
+        $updated = $json -replace '("name"\s*:\s*")([^"]+)(")', '$1[DEV] $2$3'
+        Set-Content -Path $manifestPath -Value $updated
+    }
+}
 
-Write-Host "Starting build"
+function Build-Target($param, $devEnabled) {
+    Write-Host "Starting build for $param"
+    $srcFile, $indexFile = Get-SourceFiles $param
+    $outputPath = "out\$param"
 
-$srcFile, $indexFile = Get-SourceFiles $param
+    Check-FileExists $srcFile
+    Create-OutputDirectory $outputPath
 
-Check-FileExists $srcFile
-Create-OutputDirectory
+    Copy-Item -Path $srcFile -Destination "$outputPath\manifest.json" -Force
 
-Copy-Item -Path $srcFile -Destination "out\manifest.json" -Force
+    if ($devEnabled) {
+        Update-ManifestName "$outputPath\manifest.json"
+    }
 
-$files = @($indexFile, "package.json", "media")
+    $files = @("index.js", "archiver.js", "package.json", "media")
+    Copy-Files $files $param $outputPath
+    Compress-Output $outputPath
 
-Copy-Files $files $param $indexFile
-Compress-Output
+    Write-Host "Build complete for $param"
+}
 
-Write-Host "Build complete"
+$devEnabled = $false
+$targetArgs = @()
+foreach ($arg in $args) {
+    if ($arg -eq "-d" -or $arg -eq "-dev") {
+        $devEnabled = $true
+    }
+    else {
+        $targetArgs += $arg
+    }
+}
+
+$param = if ($targetArgs.Count -gt 0) { $targetArgs[0] } else { $null }
+
+Clean-OutputDirectory
+
+if ($param -eq $null) {
+    Build-Target "firefox" $devEnabled
+    Build-Target "chrome" $devEnabled
+    return
+}
+
+Build-Target $param $devEnabled
