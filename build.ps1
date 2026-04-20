@@ -48,8 +48,17 @@ function Copy-Files($files, $param, $outputPath) {
     }
 }
 
-function Compress-Output($outputPath) {
-    Compress-Archive -Path "$outputPath\*" -DestinationPath "$outputPath\EzBeezyArchiver.zip" -Update
+function Get-Version() {
+    $package = Get-Content "package.json" -Raw | ConvertFrom-Json
+    return $package.version
+}
+
+function Compress-Output($outputPath, $param, $version) {
+    $zipName = "EzBeezyArchiver-$version-$param.zip"
+    $zipPath = Join-Path $outputPath $zipName
+    
+    Remove-Item -Force $zipPath -ErrorAction SilentlyContinue
+    Compress-Archive -Path "$outputPath\*" -DestinationPath $zipPath -Force
 }
 
 function Clean-OutputDirectory() {
@@ -82,7 +91,9 @@ function Build-Target($param, $devEnabled) {
 
     $files = @("index.js", "archiver.js", "storage.js", "options.html", "options.css", "options.js", "package.json", "media")
     Copy-Files $files $param $outputPath
-    Compress-Output $outputPath
+
+    $version = Get-Version
+    Compress-Output $outputPath $param $version
 
     Write-Host "Build complete for $param"
 }
