@@ -1,10 +1,10 @@
 function Get-SourceFiles($param) {
     $param = $param.ToLower()
     if ($param -eq "f" -or $param -eq "firefox") {
-        return "manifest.firefox.json", "index.js"
+        return "src\manifest.firefox.json", "src\index.js"
     }
     if ($param -eq "g" -or $param -eq "c" -or $param -eq "chrome") {
-        return "manifest.chrome.json", "index.js"
+        return "src\manifest.chrome.json", "src\index.js"
     }
     Write-Host "Invalid parameter."
     exit 1
@@ -25,25 +25,22 @@ function Create-OutputDirectory($path) {
 
 function Copy-Files($files, $param, $outputPath) {
     foreach ($file in $files) {
+        if (!(Test-Path $file)) {
+            Write-Host "Error: $file not found."
+            exit 1
+        }
         $item = Get-Item $file
-        switch (Test-Path $file) {
-            $true {
-                if ($item.PSIsContainer) {
-                    if ($file -eq "media" -and ($param -eq "f" -or $param -eq "firefox")) {
-                        Copy-Item -Path "$file\*" -Destination "$outputPath\" -Recurse -Force
-                    }
-                    else {
-                        Copy-Item -Path $file -Destination "$outputPath\" -Recurse -Force
-                    }
-                }
-                else {
-                    Copy-Item -Path $file -Destination "$outputPath\$file" -Force
-                }
+        if ($item.PSIsContainer) {
+            if ($file -eq "media" -and ($param -eq "f" -or $param -eq "firefox")) {
+                Copy-Item -Path "$file\*" -Destination "$outputPath\" -Recurse -Force
             }
-            $false {
-                Write-Host "Error: $file not found."
-                exit 1
+            else {
+                Copy-Item -Path $file -Destination "$outputPath\" -Recurse -Force
             }
+        }
+        else {
+            $fileName = Split-Path $file -Leaf
+            Copy-Item -Path $file -Destination "$outputPath\$fileName" -Force
         }
     }
 }
@@ -56,7 +53,7 @@ function Get-Version() {
 function Compress-Output($outputPath, $param, $version) {
     $zipName = "EzBeezyArchiver-$version-$param.zip"
     $zipPath = Join-Path $outputPath $zipName
-    
+
     Remove-Item -Force $zipPath -ErrorAction SilentlyContinue
     Compress-Archive -Path "$outputPath\*" -DestinationPath $zipPath -Force
 }
@@ -89,7 +86,7 @@ function Build-Target($param, $devEnabled) {
         Update-ManifestName "$outputPath\manifest.json"
     }
 
-    $files = @("index.js", "archiver.js", "storage.js", "options.html", "options.css", "options.js", "package.json", "media")
+    $files = @("src\index.js", "src\archiver.js", "src\storage.js", "src\options.html", "src\options.css", "src\options.js", "package.json", "media")
     Copy-Files $files $param $outputPath
 
     $version = Get-Version
