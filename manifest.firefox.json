@@ -8,6 +8,7 @@
     },
     "background": {
         "scripts": [
+            "archiver.js",
             "index.js"
         ]
     },

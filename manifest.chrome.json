@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Easy Archive.is Archiver",
-    "version": "1.0",
+    "version": "1.1",
     "description": "Archives the current page using Archive.is",
     "icons": {
         "48": "media/icon.png"
@@ -15,7 +15,6 @@
     },
     "permissions": [
         "activeTab",
-        "contextMenus",
-        "action"
+        "contextMenus"
     ]
 }
