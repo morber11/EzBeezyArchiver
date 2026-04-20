@@ -22,7 +22,7 @@ This will create a new folder in the directory called `out` which contains the r
 
 It will also contain a .zip archive of all the relevant files.
 
-For development, add the flag `-d` or `-dev` which will append the app name in the manifest with `[DEV]` to distuinguish it from preinstalled versions
+For development, add the flag `-d` or `-dev` which will append the app name in the manifest with `[DEV]` to distinguish it from preinstalled versions
 
 ## Manual Installation
 
