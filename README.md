@@ -4,7 +4,7 @@
 
 **EasyArchiver** is a user-friendly tool designed for archiving files using Archive.is.
 
-[!image](https://files.catbox.moe/lc9hkg.png)
+![image](https://files.catbox.moe/lc9hkg.png)
 
 At the moment this is still in an experimental phase and is still awaiting release to the Chrome Web Store
 
