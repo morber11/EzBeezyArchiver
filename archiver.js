@@ -1,23 +1,28 @@
-const archiveUrlBase = 'https://archive.is/?run=1&url='
-
-function buildArchiveUrl(targetUrl) {
-    return `${archiveUrlBase}${encodeURIComponent(targetUrl)}`
+function getConfig() {
+    return loadArchiveConfig()
 }
 
-function archiveUrl(targetUrl, { active = false } = {}) {
+async function buildArchiveUrl(targetUrl) {
+    const config = await getConfig()
+    return `${config.service}${config.queryParameters}${encodeURIComponent(targetUrl)}`
+}
+
+async function archiveUrl(targetUrl, { active = false } = {}) {
     const api = globalThis.browser || globalThis.chrome
-    api.tabs.create({ url: buildArchiveUrl(targetUrl), active })
+    const url = await buildArchiveUrl(targetUrl)
+
+    api.tabs.create({ url, active })
 }
 
-function archiveTab(tab, options = {}) {
-    archiveUrl(tab.url, options)
+async function archiveTab(tab, options = {}) {
+    await archiveUrl(tab.url, options)
 }
 
-function archiveLink(targetUrl, options = {}) {
-    archiveUrl(targetUrl, options)
+async function archiveLink(targetUrl, options = {}) {
+    await archiveUrl(targetUrl, options)
 }
 
-globalThis.easyArchiver = {
+globalThis.ezBeezyArchiver = {
     buildArchiveUrl,
     archiveUrl,
     archiveTab,
