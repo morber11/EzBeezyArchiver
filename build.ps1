@@ -1,10 +1,10 @@
 function Get-SourceFiles($param) {
     $param = $param.ToLower()
     if ($param -eq "f" -or $param -eq "firefox") {
-        return "manifest.firefox.json", "index.firefox.js"
+        return "manifest.firefox.json", "index.js"
     }
     if ($param -eq "g" -or $param -eq "c" -or $param -eq "chrome") {
-        return "manifest.chrome.json", "index.chrome.js"
+        return "manifest.chrome.json", "index.js"
     }
     Write-Host "Invalid parameter."
     exit 1
@@ -23,7 +23,7 @@ function Create-OutputDirectory($path) {
     }
 }
 
-function Copy-Files($files, $param, $indexFile, $outputPath) {
+function Copy-Files($files, $param, $outputPath) {
     foreach ($file in $files) {
         $item = Get-Item $file
         switch (Test-Path $file) {
@@ -38,9 +38,6 @@ function Copy-Files($files, $param, $indexFile, $outputPath) {
                 }
                 else {
                     Copy-Item -Path $file -Destination "$outputPath\$file" -Force
-                    if ($file -eq $indexFile) {
-                        Rename-Item -Path "$outputPath\$file" -NewName "index.js" -Force
-                    }
                 }
             }
             $false {
@@ -83,8 +80,8 @@ function Build-Target($param, $devEnabled) {
         Update-ManifestName "$outputPath\manifest.json"
     }
 
-    $files = @($indexFile, "archiver.js", "package.json", "media")
-    Copy-Files $files $param $indexFile $outputPath
+    $files = @("index.js", "archiver.js", "package.json", "media")
+    Copy-Files $files $param $outputPath
     Compress-Output $outputPath
 
     Write-Host "Build complete for $param"
