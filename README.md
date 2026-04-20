@@ -12,11 +12,15 @@ At the moment this is still in an experimental phase and is still awaiting relea
 
 ## Building
 
-To build the project, execute the `build.ps1` script with a parameter of either `firefox` or `chrome`.
+To build the project, execute the `build.ps1` script. Builds all by default
 
-This will create a new folder in the directory called `out` which contains the relevant files depending on whether you selected `firefox` or `chrome`. 
+To build for a specific version, add the parameter `firefox` or `chrome`.
+
+This will create a new folder in the directory called `out` which contains the relevant files
 
 It will also contain a .zip archive of all the relevant files.
+
+For development, add the flag `-d` or `-dev` which will append the app name in the manifest with `[DEV]` to distuinguish it from preinstalled versions
 
 ## Manual Installation
 
