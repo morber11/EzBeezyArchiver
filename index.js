@@ -1,12 +1,12 @@
 const api = globalThis.browser || globalThis.chrome
 const action = api.action || api.browserAction
 
-if (!globalThis.easyArchiver && typeof importScripts === 'function') {
-    importScripts('archiver.js')
+if (!globalThis.ezBeezyArchiver && typeof importScripts === 'function') {
+    importScripts('storage.js', 'archiver.js')
 }
 
-action.onClicked.addListener((tab) => {
-    easyArchiver.archiveTab(tab)
+action.onClicked.addListener(async (tab) => {
+    await ezBeezyArchiver.archiveTab(tab)
 })
 
 api.contextMenus.create({
@@ -21,10 +21,10 @@ api.contextMenus.create({
     contexts: ['link']
 })
 
-api.contextMenus.onClicked.addListener((info, tab) => {
+api.contextMenus.onClicked.addListener(async (info, tab) => {
     if (info.menuItemId === 'archivePage') {
-        easyArchiver.archiveTab(tab, { active: false })
+        await ezBeezyArchiver.archiveTab(tab, { active: false })
     } else if (info.menuItemId === 'archiveLink') {
-        easyArchiver.archiveLink(info.linkUrl, { active: false })
+        await ezBeezyArchiver.archiveLink(info.linkUrl, { active: false })
     }
 })

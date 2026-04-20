@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Ez Beezy Archiver Options</title>
+    <link rel="stylesheet" href="options.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Ez Beezy Archiver Settings</h1>
+        <form id="optionsForm">
+            <label for="preset">Preset</label>
+            <select id="preset">
+                <option value="archive.is">https://archive.is</option>
+                <option value="archive.li">https://archive.li</option>
+                <option value="archive.ph">https://archive.ph</option>
+                <option value="custom">Custom</option>
+            </select>
+
+            <label for="service">Service</label>
+            <input id="service" type="url" placeholder="https://archive.is" required>
+
+            <label for="queryParameters">Query Parameters</label>
+            <input id="queryParameters" type="text" placeholder="/?run=1&url=" required>
+
+            <label for="sampleUrl">Sample URL (for Test)</label>
+            <input id="sampleUrl" type="url" placeholder="https://example.com/">
+
+            <div class="buttons">
+                <button id="saveBtn" type="button">Save</button>
+                <button id="resetBtn" type="button">Reset</button>
+                <button id="testBtn" type="button">Test</button>
+            </div>
+
+            <div id="status" role="status" aria-live="polite"></div>
+        </form>
+    </div>
+    <script src="storage.js"></script>
+    <script src="options.js"></script>
+</body>
+
+</html>

@@ -1,16 +1,46 @@
-# EasyArchiver
+# EzBeezyArchiver
 
 ## Description
 
-**EasyArchiver** is a user-friendly tool designed for archiving files using Archive.is.
+**EzBeezyArchiver** is a user-friendly tool designed for archiving files using Archive.is.
 
 ![image](https://files.catbox.moe/lc9hkg.png)
 
 At the moment this is still in an experimental phase and is still awaiting release to the Chrome Web Store
 
 ## Links
-### Firefox
-- https://addons.mozilla.org/en-US/firefox/addon/easy-archive-is-archiver/
+
+### TBC
+
+## Configuration
+
+EzBeezyArchiver stores runtime settings in browser storage under the key `ezBeezyArchiver.config`.
+The configuration object contains:
+
+- `service`: archive service host, for example `https://archive.is`
+- `queryParameters`: query string prefix, for example `/?run=1&url=`
+
+The default settings are:
+
+```json
+{
+  "service": "https://archive.is",
+  "queryParameters": "/?run=1&url="
+}
+```
+
+Alternative services include `https://archive.li` and `https://archive.ph`.
+
+## Options Page
+
+Configure the archive service from the extension options page. Open the extension details page and click "Options" or "Preferences".
+
+Choose a preset or enter custom values for:
+
+- `service`: archive service host
+- `queryParameters`: query string prefix
+
+The options UI saves settings to `ezBeezyArchiver.config` in browser storage.
 
 ## Building
 
@@ -28,14 +58,14 @@ For development, add the flag `-d` or `-dev` which will append the app name in t
 
 After building the file, follow the steps below to add it to your browser:
 
-### For Firefox:
+### For Firefox
 
 1. Click on `Settings`.
 2. Select `Add-ons`.
 3. In the Add-ons manager, click the setting wheel and select `Install add-on from file`.
 4. Drag and drop the `.zip` file into Firefox.
 
-### For Chrome:
+### For Chrome
 
 1. Click on `Settings`.
 2. Select `Extensions`.
@@ -45,16 +75,16 @@ After building the file, follow the steps below to add it to your browser:
 
 ## Troubleshooting
 
-If you encounter any issues while using **EasyArchiver**, please refer to the following sections based on your browser:
+If you encounter any issues while using **EzBeezyArchiver**, please refer to the following sections based on your browser:
 
-### For Firefox:
+### For Firefox
 
 1. Ensure that you have the latest version of Firefox installed.
 2. Check if the add-on is enabled in `Add-ons` settings.
 3. Try disabling `xpinstall.signatures.required` in `about:config`
 4. If the problem persists, try reinstalling the add-on.
 
-### For Chrome:
+### For Chrome
 
 1. Ensure that you have the latest version of Chrome installed.
 2. Check if the extension is enabled in `Extensions` settings.

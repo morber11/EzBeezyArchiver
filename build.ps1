@@ -49,7 +49,7 @@ function Copy-Files($files, $param, $outputPath) {
 }
 
 function Compress-Output($outputPath) {
-    Compress-Archive -Path "$outputPath\*" -DestinationPath "$outputPath\EasyArchiver.zip" -Update
+    Compress-Archive -Path "$outputPath\*" -DestinationPath "$outputPath\EzBeezyArchiver.zip" -Update
 }
 
 function Clean-OutputDirectory() {
@@ -80,7 +80,7 @@ function Build-Target($param, $devEnabled) {
         Update-ManifestName "$outputPath\manifest.json"
     }
 
-    $files = @("index.js", "archiver.js", "package.json", "media")
+    $files = @("index.js", "archiver.js", "storage.js", "options.html", "options.css", "options.js", "package.json", "media")
     Copy-Files $files $param $outputPath
     Compress-Output $outputPath
 

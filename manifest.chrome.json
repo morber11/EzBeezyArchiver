@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "Easy Archive.is Archiver",
+    "name": "Easy Beezy Archiver",
     "version": "1.1",
-    "description": "Archives the current page using Archive.is",
+    "description": "Archives the current page using an archiving service of your choice",
     "icons": {
         "48": "media/icon.png"
     },
@@ -13,8 +13,13 @@
         "default_icon": "media/icon.png",
         "default_title": "Archive this page"
     },
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": true
+    },
     "permissions": [
         "activeTab",
-        "contextMenus"
+        "contextMenus",
+        "storage"
     ]
 }
