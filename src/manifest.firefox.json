@@ -1,10 +1,10 @@
 {
     "manifest_version": 2,
     "name": "Ez Beezy Archiver",
-    "version": "2.0",
+    "version": "2.1",
     "description": "Archives the current page using an archiving service of your choice",
     "icons": {
-        "48": "icon.png"
+        "48": "icon_48.png"
     },
     "background": {
         "scripts": [
@@ -23,7 +23,12 @@
     },
     "browser_specific_settings": {
         "gecko": {
-            "id": "{02497381-8eaf-45e3-a8b8-1157b8fe6f1d}"
+            "id": "{02497381-8eaf-45e3-a8b8-1157b8fe6f1d}",
+            "data_collection_permissions": {
+                "required": [
+                    "browsingActivity"
+                ]
+            }
         }
     },
     "permissions": [
