@@ -12,7 +12,7 @@ At the moment this is still in an experimental phase and is still awaiting relea
 
 [Chrome](https://chromewebstore.google.com/detail/easy-beezy-archiver/cicfbmoilmbadgfjfedlbihpflnbpaji)
 
-Firefox - Pending Approval
+[Firefox](addons.mozilla.org/addon/ezbeezyarchiver/)
 
 ## Configuration
 
