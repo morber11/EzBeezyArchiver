@@ -1,9 +1,9 @@
 import browser from "webextension-polyfill"
 import { loadArchiveConfig } from "./storage"
 
-async function buildArchiveUrl(targetUrl: string): Promise<string> {
+async function buildArchiveUrl(targetUrl: string) {
     const config = await loadArchiveConfig()
-    return `${config.service}${config.queryParameters}${encodeURIComponent(targetUrl)}`
+    return `${config.serviceUrl}${config.queryParameters}${encodeURIComponent(targetUrl)}`
 }
 
 async function archiveUrl(targetUrl: string, active = false) {
