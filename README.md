@@ -10,7 +10,9 @@ At the moment this is still in an experimental phase and is still awaiting relea
 
 ## Links
 
-### TBC
+[Chrome](https://chromewebstore.google.com/detail/easy-beezy-archiver/cicfbmoilmbadgfjfedlbihpflnbpaji)
+
+[Firefox](https://addons.mozilla.org/en-US/firefox/addon/ezbeezyarchiver/)
 
 ## Configuration
 
