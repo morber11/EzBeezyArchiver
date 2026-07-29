@@ -10,16 +10,18 @@ browser.action.onClicked.addListener((tab) => {
     void archiveTab(tab)
 })
 
-browser.contextMenus.create({
-    id: MenuItem.ArchivePage,
-    title: "Archive this page",
-    contexts: ["page"],
-})
+browser.runtime.onInstalled.addListener(() => {
+    browser.contextMenus.create({
+        id: MenuItem.ArchivePage,
+        title: "Archive this page",
+        contexts: ["page"],
+    })
 
-browser.contextMenus.create({
-    id: MenuItem.ArchiveLink,
-    title: "Archive this link",
-    contexts: ["link"],
+    browser.contextMenus.create({
+        id: MenuItem.ArchiveLink,
+        title: "Archive this link",
+        contexts: ["link"],
+    })
 })
 
 browser.contextMenus.onClicked.addListener((info, tab) => {

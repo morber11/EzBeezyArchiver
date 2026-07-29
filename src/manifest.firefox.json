@@ -8,8 +8,6 @@
     },
     "background": {
         "scripts": [
-            "storage.js",
-            "archiver.js",
             "index.js"
         ]
     },

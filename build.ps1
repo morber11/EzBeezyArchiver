@@ -1,10 +1,10 @@
 function Get-SourceFiles($param) {
     $param = $param.ToLower()
     if ($param -eq "f" -or $param -eq "firefox") {
-        return "src\manifest.firefox.json", "src\index.js"
+        return "src\manifest.firefox.json", "out\ts\index.js"
     }
     if ($param -eq "g" -or $param -eq "c" -or $param -eq "chrome") {
-        return "src\manifest.chrome.json", "src\index.js"
+        return "src\manifest.chrome.json", "out\ts\index.js"
     }
     Write-Host "Invalid parameter."
     exit 1
@@ -77,6 +77,12 @@ function Build-Target($param, $devEnabled) {
     $srcFile, $indexFile = Get-SourceFiles $param
     $outputPath = "out\$param"
 
+    npm run build:ts
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "TypeScript build failed."
+        exit 1
+    }
+
     Check-FileExists $srcFile
     Create-OutputDirectory $outputPath
 
@@ -86,7 +92,7 @@ function Build-Target($param, $devEnabled) {
         Update-ManifestName "$outputPath\manifest.json"
     }
 
-    $files = @("src\index.js", "src\archiver.js", "src\storage.js", "src\options.html", "src\options.css", "src\options.js", "package.json", "media")
+    $files = @("out\ts\index.js", "src\options.html", "src\options.css", "out\ts\options.js", "package.json", "media")
     Copy-Files $files $param $outputPath
 
     $version = Get-Version

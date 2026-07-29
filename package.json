@@ -4,7 +4,7 @@
     "description": "EzBeezyArchiver for Firefox. Archives pages using archive services",
     "main": "src/index.js",
     "scripts": {
-        "build:ts": "esbuild src/index.ts src/options.ts --bundle --outdir=src --platform=browser",
+        "build:ts": "esbuild src/index.ts src/options.ts --bundle --outdir=out\\ts --platform=browser",
         "lint": "eslint src/",
         "lint:fix": "eslint src/ --fix",
         "typecheck": "tsc --noEmit"
