@@ -4,8 +4,23 @@
     "description": "EzBeezyArchiver for Firefox. Archives pages using archive services",
     "main": "src/index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "build:ts": "esbuild src/index.ts src/options.ts --bundle --outdir=src --platform=browser",
+        "lint": "eslint src/",
+        "lint:fix": "eslint src/ --fix",
+        "typecheck": "tsc --noEmit"
     },
     "author": "morber11",
-    "license": "MIT"
+    "license": "MIT",
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@types/chrome": "^0.2.2",
+        "@types/webextension-polyfill": "^0.12.5",
+        "esbuild": "^0.28.1",
+        "eslint": "^10.8.0",
+        "typescript": "^6.0.3",
+        "typescript-eslint": "^8.65.0"
+    },
+    "dependencies": {
+        "webextension-polyfill": "^0.12.0"
+    }
 }
