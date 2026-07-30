@@ -1,12 +1,12 @@
 import browser from "webextension-polyfill"
 import { loadArchiveConfig, saveArchiveConfig, DEFAULT_ARCHIVE_CONFIG, PRESETS, type ArchiveConfig } from "./storage"
+import { archiveTab } from "./archiver"
 
 const EXAMPLE_URL = "https://example.com/"
 
 // needed because getElementById can return null
 function getById(id: string): HTMLElement {
     const el = document.getElementById(id)
-
     if (!el) throw new Error(`element #${id} not found`)
     return el
 }
@@ -34,6 +34,7 @@ async function loadOptions() {
     const saveBtn = getById("saveBtn") as HTMLButtonElement
     const resetBtn = getById("resetBtn") as HTMLButtonElement
     const testBtn = getById("testBtn") as HTMLButtonElement
+    const archiveBtn = getById("archiveBtn") as HTMLButtonElement
 
     const config = await loadArchiveConfig()
 
@@ -75,6 +76,13 @@ async function loadOptions() {
         const url = buildUrl(service.value.trim(), queryParameters.value.trim(), target)
 
         void browser.tabs.create({ url })
+    })
+
+    archiveBtn.addEventListener("click", () => {
+        void browser.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
+            if (!tab?.url) return
+            void archiveTab(tab)
+        })
     })
 }
 

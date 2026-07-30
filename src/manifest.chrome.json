@@ -10,11 +10,12 @@
         "service_worker": "index.js"
     },
     "action": {
+        "default_popup": "popup.html",
         "default_icon": "media/icon.png",
         "default_title": "Archive this page"
     },
     "options_ui": {
-        "page": "options.html",
+        "page": "popup.html",
         "open_in_tab": true
     },
     "permissions": [

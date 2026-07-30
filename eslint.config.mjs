@@ -1,19 +1,19 @@
-// @ts-check
 import eslint from "@eslint/js"
 import tseslint from "typescript-eslint"
 
+const TS = ["src/**/*.ts"]
+
 export default tseslint.config(
     eslint.configs.recommended,
-    ...tseslint.configs.strictTypeChecked,
-    ...tseslint.configs.stylisticTypeChecked,
+    ...tseslint.configs.strictTypeChecked.map(c => ({ ...c, files: TS })),
+    ...tseslint.configs.stylisticTypeChecked.map(c => ({ ...c, files: TS })),
     {
+        files: TS,
         languageOptions: {
             parserOptions: {
                 projectService: true,
             },
         },
-    },
-    {
         rules: {
             "@typescript-eslint/no-unused-vars": [
                 "error",
@@ -36,6 +36,16 @@ export default tseslint.config(
                     },
                 },
             ],
+        },
+    },
+    {
+        files: ["build.mjs"],
+        languageOptions: {
+            sourceType: "module",
+            globals: {
+                process: "readonly",
+                console: "readonly",
+            },
         },
     },
     {

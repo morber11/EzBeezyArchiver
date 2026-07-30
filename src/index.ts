@@ -6,10 +6,6 @@ const enum MenuItem {
     ArchiveLink = "archiveLink",
 }
 
-browser.action.onClicked.addListener((tab) => {
-    void archiveTab(tab)
-})
-
 browser.runtime.onInstalled.addListener(() => {
     browser.contextMenus.create({
         id: MenuItem.ArchivePage,
