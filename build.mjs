@@ -87,5 +87,9 @@ for (const targetName of buildTargets) {
 
     createZip(outDir, join(outDir, zipName))
 
-    console.log(`\x1b[32mbuild complete for ${targetName}\x1b[0m`)
+    // cleanup leftover files
+    rmSync("out/index.js")
+    rmSync("out/popup.js")
+
+    console.log(`\x1b[32mbuild complete for ${targetName}\x1b[0m`)    
 }
