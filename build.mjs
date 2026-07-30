@@ -47,7 +47,7 @@ execSync("npm run build:ts", { stdio: "inherit" })
 
 for (const targetName of buildTargets) {
     console.log(`Starting build for ${targetName}`)
-    
+
     const outDir = `out/${targetName}`
     const manifestSrc = `src/manifest.${targetName}.json`
     const version = JSON.parse(readFileSync("package.json", "utf-8")).version
@@ -77,8 +77,18 @@ for (const targetName of buildTargets) {
     copy("package.json", join(outDir, "package.json"))
 
     if (existsSync("media")) {
-        for (const f of readdirSync("media")) {
-            copy(join("media", f), join(outDir, "media", f))
+        if (targetName === Target.Firefox) {
+            // firefox has a stupid rule that it can't handle backslashes 
+            // and i'm using windows to compress it 
+            // so the geniuses at firefox decide to reject it
+            // instead add it to the root folder 
+            // i hate firefox so much
+            copy("media/icon.png", join(outDir, "icon.png"))
+            copy("media/icon_48.png", join(outDir, "icon_48.png"))
+        } else {
+            for (const f of readdirSync("media")) {
+                copy(join("media", f), join(outDir, "media", f))
+            }
         }
     }
 
@@ -86,10 +96,11 @@ for (const targetName of buildTargets) {
     const zipName = `EzBeezyArchiver-${version}-${targetName}${suffix}.zip`
 
     createZip(outDir, join(outDir, zipName))
+
+    console.log(`\x1b[32mbuild complete for ${targetName}\x1b[0m`)
 }
 
 // cleanup leftover files
 rmSync("out/index.js")
 rmSync("out/popup.js")
 
-console.log(`\x1b[32mbuild complete for ${targetName}\x1b[0m`)    
