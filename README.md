@@ -2,11 +2,9 @@
 
 ## Description
 
-**EzBeezyArchiver** is a user-friendly tool designed for archiving files using Archive.is.
+**EzBeezyArchiver** is a user-friendly tool designed for archiving files using Archive.is
 
 ![image](https://files.catbox.moe/lc9hkg.png)
-
-At the moment this is still in an experimental phase and is still awaiting release to the Chrome Web Store
 
 ## Links
 
@@ -19,14 +17,16 @@ At the moment this is still in an experimental phase and is still awaiting relea
 EzBeezyArchiver stores runtime settings in browser storage under the key `ezBeezyArchiver.config`.
 The configuration object contains:
 
-- `service`: archive service host, for example `https://archive.is`
+- `name`: preset name, for example `"archive.is"`
+- `serviceUrl`: archive service host, for example `https://archive.is`
 - `queryParameters`: query string prefix, for example `/?run=1&url=`
 
 The default settings are:
 
 ```json
 {
-  "service": "https://archive.is",
+  "name": "archive.is",
+  "serviceUrl": "https://archive.is",
   "queryParameters": "/?run=1&url="
 }
 ```
@@ -35,58 +35,73 @@ Alternative services include `https://archive.li` and `https://archive.ph`.
 
 ## Options Page
 
-Configure the archive service from the extension options page. Open the extension details page and click "Options" or "Preferences".
+Configure the archive service from the extension options page. Open the extension details page and click "Options" or "Preferences"
 
 Choose a preset or enter custom values for:
 
-- `service`: archive service host
+- `name`: preset name
+- `serviceUrl`: archive service host
 - `queryParameters`: query string prefix
 
-The options UI saves settings to `ezBeezyArchiver.config` in browser storage.
+The options UI saves settings to `ezBeezyArchiver.config` in browser storage
 
 ## Building
 
-To build the project, execute the `build.ps1` script. Builds all by default
+Ensure dependencies are installed:
 
-To build for a specific version, add the parameter `firefox` or `chrome`.
+```sh
+npm install
+```
 
-This will create a new folder in the directory called `out` which contains the relevant files
+### Development build
 
-It will also contain a .zip archive of all the relevant files.
+```sh
+npm run build
+```
 
-For development, add the flag `-d` or `-dev` which will append the app name in the manifest with `[DEV]` to distinguish it from preinstalled versions
+Creates `out/firefox/` and `out/chrome/` directories with the extension files, plus `.zip` archives
+
+The app name is prefixed with `[DEV]` and the extension ID is suffixed for Firefox so dev and production versions can both be loaded in the same browser
+
+### Production build
+
+```sh
+npm run build:prod
+```
+
+Runs lint first. If lint fails, the build fails
+
+All builds output to `out/{target}/` and create a relevant `.zip` archive
 
 ## Manual Installation
 
-After building the file, follow the steps below to add it to your browser:
+After building, install the output as follows:
 
-### For Firefox
+### Firefox Installation
 
-1. Click on `Settings`.
-2. Select `Add-ons`.
-3. In the Add-ons manager, click the setting wheel and select `Install add-on from file`.
-4. Drag and drop the `.zip` file into Firefox.
+1. Open `about:debugging#/runtime/this-firefox` in Firefox
+2. Click "Load Temporary Add-on"
+3. Select the `manifest.json` from `out/firefox/`
 
-### For Chrome
+### Chrome Installation
 
-1. Click on `Settings`.
-2. Select `Extensions`.
-3. Enable `Developer mode` in the top right.
-4. Click on `Load unpacked`.
-5. Select the `out` folder.
+1. Open `chrome://extensions` in Chrome
+2. Enable "Developer mode" (top right)
+3. Click "Load unpacked"
+4. Select the `out/chrome/` folder
 
 ## Troubleshooting
 
 If you encounter any issues while using **EzBeezyArchiver**, please refer to the following sections based on your browser:
 
-### For Firefox
+### Firefox
 
 1. Ensure that you have the latest version of Firefox installed.
 2. Check if the add-on is enabled in `Add-ons` settings.
 3. Try disabling `xpinstall.signatures.required` in `about:config`
 4. If the problem persists, try reinstalling the add-on.
 
-### For Chrome
+### Chrome
 
 1. Ensure that you have the latest version of Chrome installed.
 2. Check if the extension is enabled in `Extensions` settings.
