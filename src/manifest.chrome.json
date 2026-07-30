@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Easy Beezy Archiver",
-    "version": "2.1",
+    "version": "3.0.0",
     "description": "Archives the current page using an archiving service of your choice",
     "icons": {
         "48": "media/icon.png"
@@ -10,11 +10,12 @@
         "service_worker": "index.js"
     },
     "action": {
+        "default_popup": "popup.html",
         "default_icon": "media/icon.png",
         "default_title": "Archive this page"
     },
     "options_ui": {
-        "page": "options.html",
+        "page": "popup.html",
         "open_in_tab": true
     },
     "permissions": [
