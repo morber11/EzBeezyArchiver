@@ -6,7 +6,7 @@ const enum MenuItem {
     ArchiveLink = "archiveLink",
 }
 
-browser.runtime.onInstalled.addListener(() => {
+function createContextMenus() {
     browser.contextMenus.create({
         id: MenuItem.ArchivePage,
         title: "Archive this page",
@@ -18,7 +18,14 @@ browser.runtime.onInstalled.addListener(() => {
         title: "Archive this link",
         contexts: ["link"],
     })
-})
+}
+
+// Firefox does not persist menus from a persistent background page
+// so we need to re-register on every start
+browser.contextMenus
+    .removeAll()
+    .then(createContextMenus)
+    .catch(console.error)
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
     if (!tab) return
